@@ -1,5 +1,5 @@
 import { App, Plugin, TAbstractFile, TFile } from "obsidian";
-import { TaskBlock, TaskPriority, TaskState, parseTasksFromMarkdown } from "./parser";
+import { TaskBlock, TaskPriority, TaskState, TaskProperties, parseTasksFromMarkdown } from "./parser";
 
 export class TaskIndexer {
   private app: App;
@@ -140,6 +140,23 @@ export class TaskIndexer {
   ): Promise<void> {
     const task = this.tasksById.get(id);
     if (!task) return;
+
+    const properties: TaskProperties = { ...task.properties };
+    if (value === null || value === "") {
+      delete properties[key];
+    } else {
+      properties[key] = value;
+    }
+
+    await this.updateTaskProperties(id, properties);
+  }
+
+  async updateTaskProperties(
+    id: string,
+    properties: TaskProperties
+  ): Promise<void> {
+    const task = this.tasksById.get(id);
+    if (!task) return;
     const file = this.app.vault.getAbstractFileByPath(task.page);
     if (!(file instanceof TFile)) return;
 
@@ -149,28 +166,17 @@ export class TaskIndexer {
 
     let i = start;
     const propRe = /^\s*([\w-]+)::\s*(.*)$/;
-    const props: { key: string; value: string }[] = [];
 
     while (i < lines.length) {
       const m = propRe.exec(lines[i]);
       if (!m) break;
-      props.push({ key: m[1], value: m[2] });
       i++;
     }
 
-    const map = new Map<string, string>();
-    for (const p of props) {
-      map.set(p.key, p.value);
-    }
-
-    if (value === null || value === "") {
-      map.delete(key);
-    } else {
-      map.set(key, value);
-    }
-
     const newPropLines: string[] = [];
-    for (const [k, v] of map.entries()) {
+    for (const [k, v] of Object.entries(properties)) {
+      if (!k) continue;
+      if (v === undefined || v === null || v === "") continue;
       newPropLines.push(`${k}:: ${v}`);
     }
 

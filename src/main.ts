@@ -2,7 +2,7 @@ import { Plugin, WorkspaceLeaf } from "obsidian";
 import { LOGSEQ_TASKS_VIEW_TYPE, TaskPaneView } from "./views/TaskPaneView";
 import { TaskIndexer } from "./core/indexer";
 import { DEFAULT_SETTINGS, LogseqTasksSettings, LogseqTasksSettingTab } from "./settings";
-import type { TaskBlock, TaskState, TaskPriority } from "./core/parser";
+import type { TaskBlock, TaskState, TaskPriority, TaskProperties } from "./core/parser";
 
 export default class LogseqTasksPlugin extends Plugin {
   settings: LogseqTasksSettings = DEFAULT_SETTINGS;
@@ -92,6 +92,14 @@ export default class LogseqTasksPlugin extends Plugin {
   ): Promise<void> {
     if (!this.indexer) return;
     await this.indexer.updateTaskProperty(taskId, key, value);
+  }
+
+  async setTaskProperties(
+    taskId: string,
+    properties: TaskProperties
+  ): Promise<void> {
+    if (!this.indexer) return;
+    await this.indexer.updateTaskProperties(taskId, properties);
   }
 }
 

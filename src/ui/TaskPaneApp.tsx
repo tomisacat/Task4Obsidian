@@ -5,6 +5,7 @@ import type { TaskIndexer } from "../core/indexer";
 import { groupTasks } from "../core/query";
 import { TaskList } from "./components/TaskList";
 import type { TaskBlock } from "../core/parser";
+import { PropertyModal } from "./PropertyModal";
 
 export interface TaskPaneAppProps {
   plugin: LogseqTasksPlugin;
@@ -59,21 +60,8 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
   };
 
   const handleEditTaskProperties = async (task: TaskBlock) => {
-    const project = window.prompt(
-      "project::",
-      task.properties.project ?? ""
-    );
-    if (project !== null) {
-      await plugin.setTaskProperty(task.id, "project", project.trim());
-    }
-
-    const context = window.prompt(
-      "context::",
-      task.properties.context ?? ""
-    );
-    if (context !== null) {
-      await plugin.setTaskProperty(task.id, "context", context.trim());
-    }
+    const modal = new PropertyModal(plugin.app, plugin, task);
+    modal.open();
   };
 
   return (
