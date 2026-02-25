@@ -1,0 +1,30 @@
+{
+  "name": "obsidian-logseq-tasks",
+  "version": "0.1.0",
+  "description": "Logseq-like task management plugin for Obsidian.",
+  "main": "main.js",
+  "scripts": {
+    "build": "esbuild src/main.ts --bundle --outfile=main.js --format=cjs --platform=node --external:obsidian --target=es2018",
+    "dev": "npm run build -- --watch",
+    "test": "vitest"
+  },
+  "keywords": [
+    "obsidian",
+    "plugin",
+    "tasks",
+    "logseq"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.4"
+  },
+  "dependencies": {
+    "obsidian": "latest",
+    "preact": "^10.24.3",
+    "zod": "^3.23.8"
+  }
+}
