@@ -10,6 +10,14 @@ const TASK_STATES: (TaskState | "")[] = [
   "WAITING",
 ];
 
+const PRIORITY_OPTIONS: { value: string; label: string }[] = [
+  { value: "", label: "All" },
+  { value: "A", label: "#A" },
+  { value: "B", label: "#B" },
+  { value: "C", label: "#C" },
+  { value: "none", label: "None" },
+];
+
 export interface PropertyFilterRow {
   key: string;
   value: string;
@@ -17,11 +25,13 @@ export interface PropertyFilterRow {
 
 export interface QueryBarProps {
   stateFilter: string;
+  priorityFilter: string;
   tagsFilter: string;
   propertyFilters: PropertyFilterRow[];
   propKeyOptions: string[];
   propValueOptionsByKey: Record<string, string[]>;
   onStateChange: (value: string) => void;
+  onPriorityChange: (value: string) => void;
   onTagsChange: (value: string) => void;
   onPropertyFiltersChange: (filters: PropertyFilterRow[]) => void;
   onClear: () => void;
@@ -31,11 +41,13 @@ export interface QueryBarProps {
 export function QueryBar(props: QueryBarProps) {
   const {
     stateFilter,
+    priorityFilter,
     tagsFilter,
     propertyFilters,
     propKeyOptions,
     propValueOptionsByKey,
     onStateChange,
+    onPriorityChange,
     onTagsChange,
     onPropertyFiltersChange,
     onClear,
@@ -70,6 +82,22 @@ export function QueryBar(props: QueryBarProps) {
           {TASK_STATES.filter(Boolean).map((s) => (
             <option key={s} value={s}>
               {s}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="logseq-query-row">
+        <label className="logseq-query-label">Priority</label>
+        <select
+          className="logseq-query-select"
+          value={priorityFilter}
+          onChange={(e) => onPriorityChange((e.target as HTMLSelectElement).value)}
+          title="Filter by priority"
+        >
+          {PRIORITY_OPTIONS.map((opt) => (
+            <option key={opt.value || "all"} value={opt.value}>
+              {opt.label}
             </option>
           ))}
         </select>

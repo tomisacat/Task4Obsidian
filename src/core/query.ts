@@ -1,9 +1,10 @@
-import type { TaskBlock, TaskState } from "./parser";
+import type { TaskBlock, TaskState, TaskPriority } from "./parser";
 
 export interface QueryDefinition {
   id: string;
   name: string;
   states?: TaskState[];
+  priority?: TaskPriority | "none";
   page?: string;
   tags?: string[];
   properties?: Record<string, string>;
@@ -49,6 +50,14 @@ export function groupTasks(
 function matchesQuery(task: TaskBlock, query: QueryDefinition): boolean {
   if (query.states && query.states.length > 0) {
     if (!query.states.includes(task.state)) return false;
+  }
+
+  if (query.priority !== undefined && query.priority !== "") {
+    if (query.priority === "none") {
+      if (task.priority !== null) return false;
+    } else if (task.priority !== query.priority) {
+      return false;
+    }
   }
 
   if (query.page) {

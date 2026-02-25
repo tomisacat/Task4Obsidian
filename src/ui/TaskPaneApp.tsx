@@ -30,6 +30,7 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
 
   const [version, setVersion] = useState(0);
   const [stateFilter, setStateFilter] = useState("");
+  const [priorityFilter, setPriorityFilter] = useState("");
   const [tagsFilter, setTagsFilter] = useState("");
   const [propertyFilters, setPropertyFilters] = useState<PropertyFilterRow[]>([
     { key: "", value: "" },
@@ -59,6 +60,8 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
   const query = useMemo((): QueryDefinition => {
     const q: QueryDefinition = { id: "panel", name: "Panel" };
     if (stateFilter) q.states = [stateFilter as TaskState];
+    if (priorityFilter)
+      q.priority = priorityFilter === "none" ? "none" : (priorityFilter as "A" | "B" | "C");
     const tags = parseTagInput(tagsFilter);
     if (tags.length > 0) q.tags = tags;
     const props: Record<string, string> = {};
@@ -67,7 +70,7 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
     }
     if (Object.keys(props).length > 0) q.properties = props;
     return q;
-  }, [stateFilter, tagsFilter, propertyFilters]);
+  }, [stateFilter, priorityFilter, tagsFilter, propertyFilters]);
 
   const filteredTasks = useMemo(
     () => executeQuery(allTasks, query),
@@ -102,11 +105,13 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
 
   const hasActiveFilters =
     !!stateFilter ||
+    !!priorityFilter ||
     !!tagsFilter.trim() ||
     propertyFilters.some((f) => f.key.trim() && f.value.trim());
 
   const clearFilters = () => {
     setStateFilter("");
+    setPriorityFilter("");
     setTagsFilter("");
     setPropertyFilters([{ key: "", value: "" }]);
   };
@@ -174,18 +179,20 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
         </div>
       </div>
       {queryExpanded && (
-        <QueryBar
-          stateFilter={stateFilter}
-          tagsFilter={tagsFilter}
-          propertyFilters={propertyFilters}
-          propKeyOptions={propKeyOptions}
-          propValueOptionsByKey={propValueOptionsByKey}
-          onStateChange={setStateFilter}
-          onTagsChange={setTagsFilter}
-          onPropertyFiltersChange={setPropertyFilters}
-          onClear={clearFilters}
-          hasActiveFilters={hasActiveFilters}
-        />
+      <QueryBar
+        stateFilter={stateFilter}
+        priorityFilter={priorityFilter}
+        tagsFilter={tagsFilter}
+        propertyFilters={propertyFilters}
+        propKeyOptions={propKeyOptions}
+        propValueOptionsByKey={propValueOptionsByKey}
+        onStateChange={setStateFilter}
+        onPriorityChange={setPriorityFilter}
+        onTagsChange={setTagsFilter}
+        onPropertyFiltersChange={setPropertyFilters}
+        onClear={clearFilters}
+        hasActiveFilters={hasActiveFilters}
+      />
       )}
       <div className="logseq-task-list-wrapper">
         <TaskList
