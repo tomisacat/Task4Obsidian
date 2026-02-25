@@ -1,4 +1,5 @@
 import { h } from "preact";
+import { useEffect, useMemo, useState } from "preact/hooks";
 import type LogseqTasksPlugin from "../main";
 import type { TaskIndexer } from "../core/indexer";
 import { groupTasks } from "../core/query";
@@ -13,8 +14,31 @@ export interface TaskPaneAppProps {
 export function TaskPaneApp(props: TaskPaneAppProps) {
   const { plugin, indexer } = props;
 
-  const allTasks = indexer.getAllTasks();
-  const grouped = groupTasks(allTasks, "page");
+  const [version, setVersion] = useState(0);
+
+  useEffect(() => {
+    const vault = plugin.app.vault;
+
+    const bump = () => {
+      setVersion((v) => v + 1);
+    };
+
+    const modifyRef = vault.on("modify", bump);
+    const deleteRef = vault.on("delete", bump);
+    const renameRef = vault.on("rename", bump);
+
+    return () => {
+      vault.off("modify", bump);
+      vault.off("delete", bump);
+      vault.off("rename", bump);
+    };
+  }, [plugin]);
+
+  const allTasks = useMemo(() => indexer.getAllTasks(), [indexer, version]);
+  const grouped = useMemo(
+    () => groupTasks(allTasks, "page"),
+    [allTasks]
+  );
 
   const handleOpenTask = (task: TaskBlock) => {
     const file = plugin.app.vault.getAbstractFileByPath(task.page);
