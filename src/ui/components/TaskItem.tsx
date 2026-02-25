@@ -15,24 +15,35 @@ export function TaskItem(props: TaskItemProps) {
 
   return (
     <div className="logseq-task-item">
-      <button
-        className="logseq-task-toggle"
-        type="button"
-        onClick={onToggleState}
-        title={`State: ${task.state}`}
-        data-state={task.state}
-      >
-        {task.state}
-      </button>
-      <button
-        className="logseq-task-priority"
-        type="button"
-        onClick={onCyclePriority}
-        title={task.priority ? `Priority ${task.priority}` : "No priority"}
-        data-priority={task.priority ?? "none"}
-      >
-        {task.priority ? `#${task.priority}` : "—"}
-      </button>
+      <div className="logseq-task-actions">
+        <button
+          className="logseq-task-toggle"
+          type="button"
+          onClick={onToggleState}
+          title={`State: ${task.state}`}
+          data-state={task.state}
+        >
+          {task.state}
+        </button>
+        <button
+          className="logseq-task-priority"
+          type="button"
+          onClick={onCyclePriority}
+          title={task.priority ? `Priority ${task.priority}` : "No priority"}
+          data-priority={task.priority ?? "none"}
+        >
+          {task.priority ? `#${task.priority}` : "—"}
+        </button>
+        <button
+          className="logseq-task-props"
+          type="button"
+          onClick={onEditProperties}
+          title="Edit properties"
+          aria-label="Edit properties"
+        >
+          <span className="logseq-task-props-icon">⚙</span>
+        </button>
+      </div>
       <span
         className="logseq-task-text"
         onClick={onOpen}
@@ -41,15 +52,6 @@ export function TaskItem(props: TaskItemProps) {
       >
         {task.text}
       </span>
-      <button
-        className="logseq-task-props"
-        type="button"
-        onClick={onEditProperties}
-        title="Edit properties"
-        aria-label="Edit properties"
-      >
-        <span className="logseq-task-props-icon">⚙</span>
-      </button>
     </div>
   );
 }
