@@ -1,5 +1,6 @@
 import { h } from "preact";
 import { useEffect, useMemo, useState } from "preact/hooks";
+import { TFile } from "obsidian";
 import type LogseqTasksPlugin from "../main";
 import type { TaskIndexer } from "../core/indexer";
 import { groupTasks } from "../core/query";
@@ -41,13 +42,23 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
     [allTasks]
   );
 
-  const handleOpenTask = (task: TaskBlock) => {
-    const file = plugin.app.vault.getAbstractFileByPath(task.page);
-    if (file && file instanceof (plugin.app.vault as any).constructor.TFile) {
-      // Fallback: use workspace to open the file at the line if possible
-      plugin.app.workspace.openLinkText(task.page, "", "tab");
-    } else {
-      plugin.app.workspace.openLinkText(task.page, "", "tab");
+  const handleOpenTask = async (task: TaskBlock) => {
+    const { vault, workspace } = plugin.app;
+    const abstractFile = vault.getAbstractFileByPath(task.page);
+    const file = abstractFile instanceof TFile ? abstractFile : null;
+    if (!file) {
+      workspace.openLinkText(task.page, "", "tab");
+      return;
+    }
+    const leaf = workspace.getLeaf(false);
+    await leaf.openFile(file);
+    const view = leaf.view;
+    const editor = view && "editor" in view ? (view as { editor: { setCursor: (pos: { line: number; ch: number }) => void; scrollIntoView: (range: unknown, mode?: string) => void; focus: () => void } }).editor : null;
+    if (editor) {
+      const line = Math.max(0, task.line - 1);
+      editor.setCursor({ line, ch: 0 });
+      editor.scrollIntoView({ from: { line, ch: 0 }, to: { line, ch: 0 } }, "center");
+      editor.focus();
     }
   };
 

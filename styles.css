@@ -101,6 +101,7 @@
   background: var(--background-primary);
   border: 1px solid var(--background-modifier-border);
   transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+  cursor: pointer;
 }
 
 .logseq-task-item:hover {
@@ -110,6 +111,14 @@
 
 .logseq-task-item:active {
   transform: scale(0.99);
+}
+
+.logseq-task-item:focus {
+  outline: none;
+}
+
+.logseq-task-item:focus-visible {
+  box-shadow: 0 0 0 2px var(--interactive-accent);
 }
 
 /* First line: action buttons only */
@@ -197,20 +206,19 @@
   color: var(--text-muted);
 }
 
-/* Second line: task description (clickable) */
+/* Second line: task description */
 .logseq-task-text {
   display: block;
   min-width: 0;
-  cursor: pointer;
   font-size: 13px;
   line-height: 1.45;
   color: var(--text-normal);
   padding: 2px 0;
   border-radius: 4px;
-  transition: color 0.15s ease, background 0.15s ease;
+  transition: color 0.15s ease;
 }
 
-.logseq-task-text:hover {
+.logseq-task-item:hover .logseq-task-text {
   color: var(--interactive-accent);
 }
 
