@@ -46,7 +46,7 @@ export default class TasksPlugin extends Plugin {
 
   private cycleTaskStateAtCursor(
     editor: { getCursor: () => { line: number }; getLine: (line: number) => string; replaceRange: (text: string, from: { line: number; ch: number }, to: { line: number; ch: number }) => void },
-    view: { file?: { path: string } }
+    view: { file?: { path: string } | null }
   ): void {
     const file = view.file;
     if (!file?.path) return;
@@ -86,7 +86,8 @@ export default class TasksPlugin extends Plugin {
 
   private async activateView() {
     const { workspace } = this.app;
-    let leaf = workspace.getLeavesOfType(LOGSEQ_TASKS_VIEW_TYPE)[0];
+    let leaf: WorkspaceLeaf | undefined | null =
+      workspace.getLeavesOfType(LOGSEQ_TASKS_VIEW_TYPE)[0];
 
     if (!leaf) {
       leaf = workspace.getRightLeaf(false);
@@ -97,6 +98,7 @@ export default class TasksPlugin extends Plugin {
       });
     }
 
+    if (!leaf) return;
     workspace.revealLeaf(leaf);
   }
 
