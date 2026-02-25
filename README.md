@@ -1,10 +1,10 @@
 # Logseq-style Tasks for Obsidian
 
-Logseq-style, outliner-focused task management with a side pane that lists all tasks in your vault, grouped by page.
+Logseq-style, outliner-focused task management for Obsidian with a query-based side pane. Tasks use state keywords (TODO, DOING, DONE, etc.), optional priorities, tags, and properties.
 
 ## Task syntax
 
-- **States**: Lines starting with `TODO`, `DOING`, `DONE`, `CANCELED`, or `WAITING` are treated as tasks. You can use a list bullet before the keyword:
+- **States**: Lines starting with `TODO`, `DOING`, `DONE`, `CANCELED`, or `WAITING` are treated as tasks. An optional list bullet (`-` or `*`) before the keyword is supported:
 
 ```markdown
 TODO [#A] Implement task parser #work
@@ -13,7 +13,7 @@ TODO [#A] Implement task parser #work
 ```
 
 - **Priorities**: Optional `[#A]`, `[#B]`, or `[#C]` immediately after the state.
-- **Tags**: Inline `#tags` in the task text are indexed.
+- **Tags**: Inline `#tags` in the task text are indexed and can be used in filters.
 - **Properties**: Lines immediately under a task that match `key:: value` are stored as properties:
 
 ```markdown
@@ -24,18 +24,41 @@ context:: @home
 
 ## Task panel
 
-Open the **Logseq Tasks** pane from the ribbon icon (check-circle) or the command **"Open Logseq Tasks view"**.
+Open the **Tasks** pane from the ribbon icon (check-circle) or the command **"Open Tasks view"**.
 
-- **All tasks** in your vault are listed and **grouped by page** (file).
-- Each task is shown as a card:
-  - **First line**: Action buttons — **state** (TODO/DOING/DONE/…), **priority** (#A/#B/#C), and **properties** (gear icon).
-  - **Second line**: The task description (clickable).
+- All tasks in your vault are listed and **grouped by page** (file).
+- **Header**: Title "Tasks", task count badge, and a **chevron** to expand/collapse the query filters section (collapsed by default).
+- **Query filters** (when expanded):
+  - **State**: TODO, DOING, DONE, CANCELED, WAITING, or All.
+  - **Priority**: All, #A, #B, #C, or None.
+  - **Tags**: Space-separated tags (e.g. `#work #urgent`); substring match.
+  - **Property**: One or more key/value filters. Key and value dropdowns are filled from existing task properties. Use "+ Add" for multiple property filters (AND). Remove with "×". **Clear** resets all filters.
+- **Task cards**:
+  - **First line**: State button (cycle TODO → DOING → DONE → CANCELED → TODO), priority button (cycle none → #C → #B → #A), and **pencil** icon to edit properties.
+  - **Second line**: Task description.
 - **Interactions**:
-  - **Click the task description** to open the note and **jump to that task’s line** (cursor and scroll).
-  - **State button**: Cycle `TODO → DOING → DONE → CANCELED`.
-  - **Priority button**: Cycle no priority → `#C` → `#B` → `#A`.
-  - **Gear button**: Open the **Edit task properties** modal to add, edit, or remove any `key:: value` properties for that task.
-- The list **refreshes automatically** when you change files in the vault.
+  - **Click the card** (or the task text) to open the note and **jump to that task’s line** (cursor and scroll).
+  - **State / priority / pencil**: Use the buttons without triggering jump (click only the card body to jump).
+- The list **refreshes automatically** when files in the vault change.
+
+## Commands
+
+- **Open Tasks view**: Opens the Tasks side pane.
+- **Cycle task state at cursor**: With the cursor on a task line in the editor, cycles the state (TODO → DOING → DONE → CANCELED → TODO). If the task is in the index, the index is updated; otherwise only the line text is changed. You can assign a hotkey in **Settings → Hotkeys** under **Tasks**.
+
+## Settings
+
+**Tasks Settings** (Settings → Community plugins → Tasks → gear icon):
+
+- **Default grouping**: How tasks are grouped in the side pane — **By page**, **By state**, or **By project property** (uses the `project` property).
+- **Saved queries (JSON)**: Edit the list of saved queries as JSON. Each query can filter by `states`, `priority`, `page`, `tags`, and `properties`. Example:
+
+```json
+[
+  { "id": "todo-all", "name": "All TODO", "states": ["TODO", "DOING"] },
+  { "id": "today", "name": "Today", "states": ["TODO"], "tags": ["#today"] }
+]
+```
 
 ## Development
 
@@ -52,8 +75,8 @@ npm install
 npm run build
 ```
 
-3. Link or copy the plugin folder into your Obsidian vault’s `.obsidian/plugins` directory (e.g. `.obsidian/plugins/obsidian-logseq-tasks`).
+3. Copy or symlink the plugin folder into your vault’s `.obsidian/plugins` directory (e.g. `.obsidian/plugins/obsidian-logseq-tasks`).
 
-4. Enable **Logseq-style Tasks** in **Settings → Community plugins**.
+4. Enable **Tasks** in **Settings → Community plugins**.
 
 5. Use **npm run dev** for watch mode while developing.
