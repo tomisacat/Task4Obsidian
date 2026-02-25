@@ -46,20 +46,6 @@ Open the **Tasks** pane from the ribbon icon (check-circle) or the command **"Op
 - **Open Tasks view**: Opens the Tasks side pane.
 - **Cycle task state at cursor**: With the cursor on a task line in the editor, cycles the state (TODO → DOING → DONE → CANCELED → TODO). If the task is in the index, the index is updated; otherwise only the line text is changed. You can assign a hotkey in **Settings → Hotkeys** under **Tasks**.
 
-## Settings
-
-**Tasks Settings** (Settings → Community plugins → Tasks → gear icon):
-
-- **Default grouping**: How tasks are grouped in the side pane — **By page**, **By state**, or **By project property** (uses the `project` property).
-- **Saved queries (JSON)**: Edit the list of saved queries as JSON. Each query can filter by `states`, `priority`, `page`, `tags`, and `properties`. Example:
-
-```json
-[
-  { "id": "todo-all", "name": "All TODO", "states": ["TODO", "DOING"] },
-  { "id": "today", "name": "Today", "states": ["TODO"], "tags": ["#today"] }
-]
-```
-
 ## Development
 
 1. Install dependencies:

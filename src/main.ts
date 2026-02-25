@@ -1,7 +1,6 @@
-import { MarkdownView, Plugin, WorkspaceLeaf } from "obsidian";
+import { Plugin, WorkspaceLeaf } from "obsidian";
 import { LOGSEQ_TASKS_VIEW_TYPE, TaskPaneView } from "./views/TaskPaneView";
 import { TaskIndexer } from "./core/indexer";
-import { DEFAULT_SETTINGS, TasksSettings, TasksSettingTab } from "./settings";
 import type { TaskState, TaskPriority, TaskProperties } from "./core/parser";
 
 const STATE_CYCLE: TaskState[] = ["TODO", "DOING", "DONE", "CANCELED"];
@@ -9,12 +8,9 @@ const TASK_LINE_RE =
   /^\s*(?:[-*]\s+)?(TODO|DOING|DONE|CANCELED|WAITING)/;
 
 export default class TasksPlugin extends Plugin {
-  settings: TasksSettings = DEFAULT_SETTINGS;
   indexer: TaskIndexer | null = null;
 
   async onload() {
-    await this.loadSettings();
-
     this.indexer = new TaskIndexer(this);
     await this.indexer.initialize();
 
@@ -40,8 +36,6 @@ export default class TasksPlugin extends Plugin {
         this.cycleTaskStateAtCursor(editor, view);
       },
     });
-
-    this.addSettingTab(new TasksSettingTab(this.app, this));
   }
 
   private cycleTaskStateAtCursor(
@@ -100,15 +94,6 @@ export default class TasksPlugin extends Plugin {
 
     if (!leaf) return;
     workspace.revealLeaf(leaf);
-  }
-
-  async loadSettings() {
-    const data = await this.loadData();
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, data);
-  }
-
-  async saveSettings() {
-    await this.saveData(this.settings);
   }
 
   async toggleTaskState(taskId: string): Promise<void> {
