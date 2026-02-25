@@ -1,7 +1,7 @@
 import { h } from "preact";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { TFile } from "obsidian";
-import type LogseqTasksPlugin from "../main";
+import type TasksPlugin from "../main";
 import type { TaskIndexer } from "../core/indexer";
 import { executeQuery, groupTasks } from "../core/query";
 import type { QueryDefinition } from "../core/query";
@@ -21,7 +21,7 @@ function parseTagInput(input: string): string[] {
 }
 
 export interface TaskPaneAppProps {
-  plugin: LogseqTasksPlugin;
+  plugin: TasksPlugin;
   indexer: TaskIndexer;
 }
 

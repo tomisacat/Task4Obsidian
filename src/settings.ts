@@ -1,13 +1,13 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
-import type LogseqTasksPlugin from "./main";
+import type TasksPlugin from "./main";
 import type { GroupBy, QueryDefinition } from "./core/query";
 
-export interface LogseqTasksSettings {
+export interface TasksSettings {
   queries: QueryDefinition[];
   defaultGroupBy: GroupBy;
 }
 
-export const DEFAULT_SETTINGS: LogseqTasksSettings = {
+export const DEFAULT_SETTINGS: TasksSettings = {
   defaultGroupBy: "page",
   queries: [
     {
@@ -18,10 +18,10 @@ export const DEFAULT_SETTINGS: LogseqTasksSettings = {
   ],
 };
 
-export class LogseqTasksSettingTab extends PluginSettingTab {
-  plugin: LogseqTasksPlugin;
+export class TasksSettingTab extends PluginSettingTab {
+  plugin: TasksPlugin;
 
-  constructor(app: App, plugin: LogseqTasksPlugin) {
+  constructor(app: App, plugin: TasksPlugin) {
     super(app, plugin);
     this.plugin = plugin;
   }
@@ -31,7 +31,7 @@ export class LogseqTasksSettingTab extends PluginSettingTab {
     containerEl.empty();
 
     containerEl.createEl("h2", {
-      text: "Logseq-style Tasks Settings",
+      text: "Tasks Settings",
     });
 
     new Setting(containerEl)

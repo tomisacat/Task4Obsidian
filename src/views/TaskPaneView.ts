@@ -1,15 +1,15 @@
 import { ItemView, WorkspaceLeaf } from "obsidian";
 import { h } from "preact";
 import { render } from "preact/compat";
-import LogseqTasksPlugin from "../main";
+import TasksPlugin from "../main";
 import { TaskPaneApp } from "../ui/TaskPaneApp";
 
 export const LOGSEQ_TASKS_VIEW_TYPE = "logseq-tasks-view";
 
 export class TaskPaneView extends ItemView {
-  plugin: LogseqTasksPlugin;
+  plugin: TasksPlugin;
 
-  constructor(leaf: WorkspaceLeaf, plugin: LogseqTasksPlugin) {
+  constructor(leaf: WorkspaceLeaf, plugin: TasksPlugin) {
     super(leaf);
     this.plugin = plugin;
   }

@@ -1,14 +1,14 @@
 import { App, Modal, Setting } from "obsidian";
 import type { TaskBlock } from "../core/parser";
-import type LogseqTasksPlugin from "../main";
+import type TasksPlugin from "../main";
 
 export class PropertyModal extends Modal {
-  private plugin: LogseqTasksPlugin;
+  private plugin: TasksPlugin;
   private task: TaskBlock;
 
   private entries: { key: string; value: string }[] = [];
 
-  constructor(app: App, plugin: LogseqTasksPlugin, task: TaskBlock) {
+  constructor(app: App, plugin: TasksPlugin, task: TaskBlock) {
     super(app);
     this.plugin = plugin;
     this.task = task;

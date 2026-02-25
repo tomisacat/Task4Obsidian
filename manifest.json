@@ -1,11 +1,11 @@
 {
   "id": "obsidian-logseq-tasks",
-  "name": "Logseq-style Tasks",
+  "name": "Tasks",
   "version": "0.1.0",
   "minAppVersion": "1.7.0",
   "description": "Logseq-like, outliner-focused task management with query-based side pane views.",
-  "author": "Your Name",
-  "authorUrl": "https://example.com",
+  "author": "Bryan Ma",
+  "authorUrl": "https://github.com/wajmjjj",
   "isDesktopOnly": true,
   "js": "main.js",
   "css": "styles.css"

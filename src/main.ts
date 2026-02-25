@@ -1,11 +1,15 @@
-import { Plugin, WorkspaceLeaf } from "obsidian";
+import { MarkdownView, Plugin, WorkspaceLeaf } from "obsidian";
 import { LOGSEQ_TASKS_VIEW_TYPE, TaskPaneView } from "./views/TaskPaneView";
 import { TaskIndexer } from "./core/indexer";
-import { DEFAULT_SETTINGS, LogseqTasksSettings, LogseqTasksSettingTab } from "./settings";
-import type { TaskBlock, TaskState, TaskPriority, TaskProperties } from "./core/parser";
+import { DEFAULT_SETTINGS, TasksSettings, TasksSettingTab } from "./settings";
+import type { TaskState, TaskPriority, TaskProperties } from "./core/parser";
 
-export default class LogseqTasksPlugin extends Plugin {
-  settings: LogseqTasksSettings = DEFAULT_SETTINGS;
+const STATE_CYCLE: TaskState[] = ["TODO", "DOING", "DONE", "CANCELED"];
+const TASK_LINE_RE =
+  /^\s*(?:[-*]\s+)?(TODO|DOING|DONE|CANCELED|WAITING)/;
+
+export default class TasksPlugin extends Plugin {
+  settings: TasksSettings = DEFAULT_SETTINGS;
   indexer: TaskIndexer | null = null;
 
   async onload() {
@@ -29,7 +33,49 @@ export default class LogseqTasksPlugin extends Plugin {
       callback: () => this.activateView(),
     });
 
-    this.addSettingTab(new LogseqTasksSettingTab(this.app, this));
+    this.addCommand({
+      id: "cycle-task-state-at-cursor",
+      name: "Cycle task state at cursor",
+      editorCallback: (editor, view) => {
+        this.cycleTaskStateAtCursor(editor, view);
+      },
+    });
+
+    this.addSettingTab(new TasksSettingTab(this.app, this));
+  }
+
+  private cycleTaskStateAtCursor(
+    editor: { getCursor: () => { line: number }; getLine: (line: number) => string; replaceRange: (text: string, from: { line: number; ch: number }, to: { line: number; ch: number }) => void },
+    view: { file?: { path: string } }
+  ): void {
+    const file = view.file;
+    if (!file?.path) return;
+
+    const cursor = editor.getCursor();
+    const lineNumber = cursor.line;
+    const line = editor.getLine(lineNumber);
+
+    const match = TASK_LINE_RE.exec(line);
+    if (!match) return;
+
+    const currentState = match[1] as TaskState;
+    const stateStart = match.index + match[0].length - match[1].length;
+    const stateEnd = stateStart + match[1].length;
+
+    const idx = STATE_CYCLE.indexOf(currentState);
+    const nextState = STATE_CYCLE[(idx + 1) % STATE_CYCLE.length] ?? "TODO";
+
+    const taskId = `${file.path}:${lineNumber + 1}`;
+    if (this.indexer?.getTaskById(taskId)) {
+      this.toggleTaskState(taskId);
+      return;
+    }
+
+    editor.replaceRange(
+      nextState,
+      { line: lineNumber, ch: stateStart },
+      { line: lineNumber, ch: stateEnd }
+    );
   }
 
   onunload() {
