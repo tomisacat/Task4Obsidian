@@ -21,10 +21,12 @@ export class PropertyModal extends Modal {
   onOpen() {
     const { contentEl } = this;
     contentEl.empty();
+    contentEl.addClass("logseq-property-modal-content");
 
-    contentEl.createEl("h3", { text: "Edit task properties" });
+    const title = contentEl.createEl("h2", { text: "Edit task properties" });
+    title.addClass("logseq-property-modal-title");
 
-    const listEl = contentEl.createDiv();
+    const listEl = contentEl.createDiv({ cls: "logseq-property-rows" });
 
     const renderRows = () => {
       listEl.empty();
@@ -67,14 +69,15 @@ export class PropertyModal extends Modal {
 
     renderRows();
 
-    const buttons = contentEl.createDiv({ cls: "logseq-task-modal-buttons" });
+    const buttons = contentEl.createDiv({ cls: "logseq-modal-actions" });
 
-    const saveBtn = buttons.createEl("button", {
-      text: "Save",
-      cls: "mod-cta",
-    });
     const cancelBtn = buttons.createEl("button", {
       text: "Cancel",
+      cls: "logseq-btn logseq-btn-ghost",
+    });
+    const saveBtn = buttons.createEl("button", {
+      text: "Save",
+      cls: "logseq-btn logseq-btn-primary",
     });
 
     saveBtn.addEventListener("click", async () => {

@@ -29,8 +29,9 @@ export function TaskItem(props: TaskItemProps) {
         type="button"
         onClick={onCyclePriority}
         title={task.priority ? `Priority ${task.priority}` : "No priority"}
+        data-priority={task.priority ?? "none"}
       >
-        {task.priority ? `[#${task.priority}]` : "-"}
+        {task.priority ? `#${task.priority}` : "—"}
       </button>
       <span
         className="logseq-task-text"
@@ -45,8 +46,9 @@ export function TaskItem(props: TaskItemProps) {
         type="button"
         onClick={onEditProperties}
         title="Edit properties"
+        aria-label="Edit properties"
       >
-        …
+        <span className="logseq-task-props-icon">⚙</span>
       </button>
     </div>
   );
