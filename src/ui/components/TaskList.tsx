@@ -19,7 +19,7 @@ export function TaskList(props: TaskListProps) {
     onCycleTaskPriority,
     onEditTaskProperties,
   } = props;
-  const groupKeys = Object.keys(groups);
+  const groupKeys = Object.keys(groups).sort();
 
   if (groupKeys.length === 0) {
     return <div className="logseq-task-empty">No tasks match this query.</div>;
