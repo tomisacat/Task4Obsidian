@@ -20,6 +20,7 @@ export function TaskItem(props: TaskItemProps) {
         type="button"
         onClick={onToggleState}
         title={`State: ${task.state}`}
+        data-state={task.state}
       >
         {task.state}
       </button>

@@ -1,0 +1,112 @@
+.logseq-task-pane {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 10px;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.logseq-task-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.logseq-task-title {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.logseq-task-count {
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.logseq-task-list-wrapper {
+  flex: 1;
+  min-height: 0;
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-border);
+  background-color: var(--background-secondary);
+  padding: 6px 8px;
+  overflow-y: auto;
+}
+
+.logseq-task-empty {
+  padding: 8px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.logseq-task-group {
+  margin-bottom: 8px;
+}
+
+.logseq-task-group-header {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.logseq-task-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  background-color: transparent;
+  transition: background-color 120ms ease, transform 80ms ease;
+}
+
+.logseq-task-item:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+.logseq-task-item:active {
+  transform: translateY(1px);
+}
+
+.logseq-task-toggle,
+.logseq-task-priority,
+.logseq-task-props {
+  border: none;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 11px;
+  background-color: var(--background-modifier-border);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.logseq-task-toggle {
+  font-weight: 600;
+}
+
+.logseq-task-toggle[data-state="DONE"] {
+  background-color: var(--interactive-success);
+  color: var(--text-on-accent);
+}
+
+.logseq-task-toggle[data-state="DOING"] {
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+.logseq-task-text {
+  flex: 1;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.logseq-task-text:hover {
+  text-decoration: underline;
+}
+
+.logseq-task-props {
+  padding-inline: 4px;
+}
+

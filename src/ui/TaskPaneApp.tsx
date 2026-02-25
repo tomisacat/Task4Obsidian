@@ -78,13 +78,21 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
 
   return (
     <div className="logseq-task-pane">
-      <TaskList
-        groups={grouped}
-        onOpenTask={handleOpenTask}
-        onToggleTaskState={handleToggleTaskState}
-        onCycleTaskPriority={handleCycleTaskPriority}
-        onEditTaskProperties={handleEditTaskProperties}
-      />
+      <div className="logseq-task-header">
+        <div className="logseq-task-title">Logseq Tasks</div>
+        <div className="logseq-task-count">
+          {allTasks.length} task{allTasks.length === 1 ? "" : "s"}
+        </div>
+      </div>
+      <div className="logseq-task-list-wrapper">
+        <TaskList
+          groups={grouped}
+          onOpenTask={handleOpenTask}
+          onToggleTaskState={handleToggleTaskState}
+          onCycleTaskPriority={handleCycleTaskPriority}
+          onEditTaskProperties={handleEditTaskProperties}
+        />
+      </div>
     </div>
   );
 }

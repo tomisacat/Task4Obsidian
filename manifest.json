@@ -7,5 +7,6 @@
   "author": "Your Name",
   "authorUrl": "https://example.com",
   "isDesktopOnly": true,
-  "js": "main.js"
+  "js": "main.js",
+  "css": "styles.css"
 }
