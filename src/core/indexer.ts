@@ -98,8 +98,8 @@ export class TaskIndexer {
     if (!lines[index]) return;
 
     lines[index] = lines[index].replace(
-      /^(?<indent>\s*)(TODO|DOING|DONE|CANCELED|WAITING)/,
-      `$1${nextState}`
+      /^(?<indent>\s*)(?<bullet>(?:[-*]\s+)?)(TODO|DOING|DONE|CANCELED|WAITING)/,
+      (_, indent, bullet) => `${indent}${bullet ?? ""}${nextState}`
     );
 
     await this.app.vault.modify(file, lines.join("\n"));
@@ -124,8 +124,9 @@ export class TaskIndexer {
       line = line.replace(/\[#([A-C])\]/, `[#${nextPriority}]`);
     } else {
       line = line.replace(
-        /^(?<indent>\s*)(TODO|DOING|DONE|CANCELED|WAITING)/,
-        `$1$2 [#${nextPriority}]`
+        /^(?<indent>\s*)(?<bullet>(?:[-*]\s+)?)(TODO|DOING|DONE|CANCELED|WAITING)/,
+        (_match, indent, bullet, state) =>
+          `${indent}${bullet ?? ""}${state} [#${nextPriority}]`
       );
     }
 
