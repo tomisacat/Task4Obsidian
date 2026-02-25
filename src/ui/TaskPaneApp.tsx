@@ -34,6 +34,7 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
   const [propertyFilters, setPropertyFilters] = useState<PropertyFilterRow[]>([
     { key: "", value: "" },
   ]);
+  const [queryExpanded, setQueryExpanded] = useState(false);
 
   useEffect(() => {
     const vault = plugin.app.vault;
@@ -147,24 +148,45 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
     <div className="logseq-task-pane">
       <div className="logseq-task-header">
         <div className="logseq-task-title">Tasks</div>
-        <div className="logseq-task-count">
-          {filteredTasks.length}
-          {hasActiveFilters ? ` / ${allTasks.length}` : ""} task
-          {filteredTasks.length === 1 ? "" : "s"}
+        <div className="logseq-task-header-right">
+          <div className="logseq-task-count">
+            {filteredTasks.length}
+            {hasActiveFilters ? ` / ${allTasks.length}` : ""} task
+            {filteredTasks.length === 1 ? "" : "s"}
+          </div>
+          <button
+            type="button"
+            className="logseq-query-toggle"
+            onClick={() => setQueryExpanded((e) => !e)}
+            title={queryExpanded ? "Hide filters" : "Show filters"}
+            aria-expanded={queryExpanded}
+          >
+            <span
+              className="logseq-query-toggle-icon"
+              aria-hidden
+              dangerouslySetInnerHTML={{
+                __html: queryExpanded
+                  ? '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>'
+                  : '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>',
+              }}
+            />
+          </button>
         </div>
       </div>
-      <QueryBar
-        stateFilter={stateFilter}
-        tagsFilter={tagsFilter}
-        propertyFilters={propertyFilters}
-        propKeyOptions={propKeyOptions}
-        propValueOptionsByKey={propValueOptionsByKey}
-        onStateChange={setStateFilter}
-        onTagsChange={setTagsFilter}
-        onPropertyFiltersChange={setPropertyFilters}
-        onClear={clearFilters}
-        hasActiveFilters={hasActiveFilters}
-      />
+      {queryExpanded && (
+        <QueryBar
+          stateFilter={stateFilter}
+          tagsFilter={tagsFilter}
+          propertyFilters={propertyFilters}
+          propKeyOptions={propKeyOptions}
+          propValueOptionsByKey={propValueOptionsByKey}
+          onStateChange={setStateFilter}
+          onTagsChange={setTagsFilter}
+          onPropertyFiltersChange={setPropertyFilters}
+          onClear={clearFilters}
+          hasActiveFilters={hasActiveFilters}
+        />
+      )}
       <div className="logseq-task-list-wrapper">
         <TaskList
           groups={grouped}

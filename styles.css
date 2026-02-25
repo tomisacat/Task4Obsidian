@@ -31,6 +31,12 @@
   color: var(--text-normal);
 }
 
+.logseq-task-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .logseq-task-count {
   font-size: 12px;
   font-weight: 500;
@@ -38,6 +44,36 @@
   border-radius: 20px;
   background: var(--background-modifier-hover);
   color: var(--text-muted);
+}
+
+.logseq-query-toggle {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.logseq-query-toggle:hover {
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.logseq-query-toggle-icon {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.logseq-query-toggle-icon svg {
+  display: block;
 }
 
 /* ========== Query bar ========== */
