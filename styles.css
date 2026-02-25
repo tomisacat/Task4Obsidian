@@ -40,6 +40,138 @@
   color: var(--text-muted);
 }
 
+/* ========== Query bar ========== */
+.logseq-query-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--background-secondary-alt);
+  border: 1px solid var(--background-modifier-border);
+  font-size: 12px;
+}
+
+.logseq-query-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logseq-query-property-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.logseq-query-row-prop-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logseq-query-row-prop-label .logseq-query-label {
+  margin-bottom: 0;
+}
+
+.logseq-query-add-prop {
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-modifier-hover);
+  color: var(--text-muted);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.logseq-query-add-prop:hover {
+  color: var(--text-normal);
+}
+
+.logseq-query-row-prop {
+  gap: 6px;
+  padding-left: 52px;
+}
+
+.logseq-query-row-prop .logseq-query-select-key {
+  max-width: 110px;
+}
+
+.logseq-query-remove-prop {
+  flex-shrink: 0;
+  width: 24px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.logseq-query-remove-prop:hover {
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.logseq-query-label {
+  flex-shrink: 0;
+  width: 52px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.logseq-query-select,
+.logseq-query-input {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-primary);
+  color: var(--text-normal);
+  font-size: 12px;
+}
+
+.logseq-query-select:focus,
+.logseq-query-input:focus {
+  outline: none;
+  border-color: var(--interactive-accent);
+}
+
+.logseq-query-select-key {
+  max-width: 120px;
+}
+
+.logseq-query-select-value {
+  flex: 1;
+  min-width: 0;
+}
+
+.logseq-query-select-value:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.logseq-query-clear {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-modifier-hover);
+  color: var(--text-muted);
+  font-size: 11px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.logseq-query-clear:hover {
+  color: var(--text-normal);
+  border-color: var(--background-modifier-border-hover);
+}
+
 /* ========== Scrollable list area ========== */
 .logseq-task-list-wrapper {
   flex: 1;

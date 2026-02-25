@@ -56,15 +56,17 @@ function matchesQuery(task: TaskBlock, query: QueryDefinition): boolean {
   }
 
   if (query.tags && query.tags.length > 0) {
-    const tagSet = new Set(task.tags);
+    const taskTagsLower = task.tags.map((t) => t.toLowerCase());
     for (const tag of query.tags) {
-      if (!tagSet.has(tag)) return false;
+      const q = tag.toLowerCase();
+      if (!taskTagsLower.some((t) => t.includes(q))) return false;
     }
   }
 
   if (query.properties) {
     for (const [key, value] of Object.entries(query.properties)) {
-      if (task.properties[key] !== value) return false;
+      const propVal = (task.properties[key] ?? "").toLowerCase();
+      if (!propVal.includes(value.toLowerCase())) return false;
     }
   }
 
