@@ -116,76 +116,83 @@ export function QueryBar(props: QueryBarProps) {
       </div>
 
       <div className="logseq-query-property-section">
-        <div className="logseq-query-row logseq-query-row-prop-label">
-          <label className="logseq-query-label">Property</label>
+        <div className="logseq-query-property-header">
+          <span className="logseq-query-property-title">Property</span>
           <button
             type="button"
             className="logseq-query-add-prop"
             onClick={addPropertyRow}
             title="Add property filter"
           >
-            + Add
+            + Add filter
           </button>
         </div>
-        {propertyFilters.map((row, index) => (
-          <div key={index} className="logseq-query-row logseq-query-row-prop">
-            <select
-              className="logseq-query-select logseq-query-select-key"
-              value={row.key}
-              onChange={(e) => {
-                const v = (e.target as HTMLSelectElement).value;
-                updatePropertyRow(index, { key: v, value: "" });
-              }}
-              title="Property key"
-            >
-              <option value="">—</option>
-              {propKeyOptions.map((k) => (
-                <option key={k} value={k}>
-                  {k}
-                </option>
-              ))}
-            </select>
-            <select
-              className="logseq-query-select logseq-query-select-value"
-              value={row.value}
-              onChange={(e) =>
-                updatePropertyRow(index, {
-                  value: (e.target as HTMLSelectElement).value,
-                })
-              }
-              disabled={!row.key}
-              title="Property value"
-            >
-              <option value="">—</option>
-              {(propValueOptionsByKey[row.key] ?? []).map((v) => (
-                <option key={v} value={v}>
-                  {v}
-                </option>
-              ))}
-            </select>
-            <button
-              type="button"
-              className="logseq-query-remove-prop"
-              onClick={() => removePropertyRow(index)}
-              title="Remove property filter"
-              aria-label="Remove"
-            >
-              ×
-            </button>
-          </div>
-        ))}
+        <div className="logseq-query-property-rows">
+          {propertyFilters.map((row, index) => (
+            <div key={index} className="logseq-query-property-row">
+              <div className="logseq-query-property-field">
+                <label className="logseq-query-property-field-label">Key</label>
+                <select
+                  className="logseq-query-select logseq-query-select-key"
+                  value={row.key}
+                  onChange={(e) => {
+                    const v = (e.target as HTMLSelectElement).value;
+                    updatePropertyRow(index, { key: v, value: "" });
+                  }}
+                  title="Property key"
+                >
+                  <option value="">—</option>
+                  {propKeyOptions.map((k) => (
+                    <option key={k} value={k}>
+                      {k}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="logseq-query-property-field">
+                <label className="logseq-query-property-field-label">Value</label>
+                <select
+                  className="logseq-query-select logseq-query-select-value"
+                  value={row.value}
+                  onChange={(e) =>
+                    updatePropertyRow(index, {
+                      value: (e.target as HTMLSelectElement).value,
+                    })
+                  }
+                  disabled={!row.key}
+                  title="Property value"
+                >
+                  <option value="">—</option>
+                  {(propValueOptionsByKey[row.key] ?? []).map((v) => (
+                    <option key={v} value={v}>
+                      {v}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <button
+                type="button"
+                className="logseq-query-remove-prop"
+                onClick={() => removePropertyRow(index)}
+                title="Remove property filter"
+                aria-label="Remove property filter"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {hasActiveFilters && (
-        <button
-          type="button"
-          className="logseq-query-clear"
-          onClick={onClear}
-          title="Clear all filters"
-        >
-          Clear filters
-        </button>
-      )}
+      <button
+        type="button"
+        className="logseq-query-clear"
+        onClick={onClear}
+        disabled={!hasActiveFilters}
+        title={hasActiveFilters ? "Clear all filters" : "No filters active"}
+      >
+        Clear filters
+      </button>
     </div>
   );
 }

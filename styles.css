@@ -94,62 +94,122 @@
   gap: 8px;
 }
 
+/* ----- Property filter section (polished) ----- */
 .logseq-query-property-section {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
+  margin-top: 2px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
 }
 
-.logseq-query-row-prop-label {
+.logseq-query-property-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 8px;
 }
 
-.logseq-query-row-prop-label .logseq-query-label {
-  margin-bottom: 0;
+.logseq-query-property-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
 }
 
 .logseq-query-add-prop {
-  padding: 3px 8px;
-  border-radius: 4px;
-  border: 1px solid var(--background-modifier-border);
-  background: var(--background-modifier-hover);
+  padding: 5px 10px;
+  border-radius: 6px;
+  border: 1px dashed var(--background-modifier-border);
+  background: transparent;
   color: var(--text-muted);
   font-size: 11px;
+  font-weight: 500;
   cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
 }
 
 .logseq-query-add-prop:hover {
-  color: var(--text-normal);
+  border-color: var(--interactive-accent);
+  color: var(--interactive-accent);
+  background: var(--background-modifier-hover);
 }
 
-.logseq-query-row-prop {
-  gap: 6px;
-  padding-left: 52px;
+.logseq-query-property-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.logseq-query-row-prop .logseq-query-select-key {
-  max-width: 110px;
+.logseq-query-property-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: var(--background-secondary-alt);
+  border: 1px solid var(--background-modifier-border);
+  transition: border-color 0.15s ease;
+}
+
+.logseq-query-property-row:focus-within {
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 0 1px var(--interactive-accent);
+}
+
+.logseq-query-property-field {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.logseq-query-property-field-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-faint);
+}
+
+.logseq-query-property-row .logseq-query-select-key {
+  max-width: 120px;
+}
+
+.logseq-query-property-row .logseq-query-select,
+.logseq-query-property-row .logseq-query-select-value {
+  width: 100%;
 }
 
 .logseq-query-remove-prop {
   flex-shrink: 0;
-  width: 24px;
+  width: 28px;
   height: 28px;
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   background: transparent;
   color: var(--text-muted);
-  font-size: 16px;
-  line-height: 1;
   cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .logseq-query-remove-prop:hover {
   background: var(--background-modifier-hover);
-  color: var(--text-normal);
+  color: var(--text-error);
+}
+
+.logseq-query-remove-prop svg {
+  display: block;
 }
 
 .logseq-query-label {
@@ -193,19 +253,26 @@
 
 .logseq-query-clear {
   align-self: flex-start;
-  padding: 4px 10px;
+  margin-top: 4px;
+  padding: 6px 12px;
   border-radius: 6px;
   border: 1px solid var(--background-modifier-border);
   background: var(--background-modifier-hover);
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 500;
   cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition: color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
 }
 
-.logseq-query-clear:hover {
+.logseq-query-clear:hover:not(:disabled) {
   color: var(--text-normal);
   border-color: var(--background-modifier-border-hover);
+}
+
+.logseq-query-clear:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 /* ========== Scrollable list area ========== */
