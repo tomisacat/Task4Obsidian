@@ -78,7 +78,7 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
   return (
     <div className="logseq-task-pane">
       <div className="logseq-task-header">
-        <div className="logseq-task-title">Logseq Tasks</div>
+        <div className="logseq-task-title">Tasks</div>
         <div className="logseq-task-count">
           {allTasks.length} task{allTasks.length === 1 ? "" : "s"}
         </div>

@@ -19,7 +19,7 @@ export class TaskPaneView extends ItemView {
   }
 
   getDisplayText(): string {
-    return "Logseq Tasks";
+    return "Tasks";
   }
 
   getIcon(): string {

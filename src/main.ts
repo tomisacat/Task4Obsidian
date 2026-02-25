@@ -19,13 +19,13 @@ export default class LogseqTasksPlugin extends Plugin {
       (leaf: WorkspaceLeaf) => new TaskPaneView(leaf, this)
     );
 
-    this.addRibbonIcon("check-circle", "Open Logseq Tasks", () => {
+    this.addRibbonIcon("check-circle", "Open Tasks", () => {
       this.activateView();
     });
 
     this.addCommand({
       id: "open-logseq-tasks-view",
-      name: "Open Logseq Tasks view",
+      name: "Open Tasks view",
       callback: () => this.activateView(),
     });
 
