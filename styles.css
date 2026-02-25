@@ -431,60 +431,164 @@
 }
 
 /* ========== Property modal ========== */
-.logseq-property-modal-content {
-  padding: 4px 0;
+/* Modal container: modalEl has class "modal" + "logseq-property-modal" */
+.modal.logseq-property-modal {
+  max-width: 440px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
-.logseq-property-modal-content .logseq-property-modal-title {
-  margin: 0 0 20px 0;
-  font-size: 18px;
+.logseq-property-modal-content {
+  padding: 0 4px 4px;
+}
+
+.logseq-property-modal-header {
+  margin-bottom: 20px;
+}
+
+.logseq-property-modal-title {
+  margin: 0 0 6px 0;
+  font-size: 1.25rem;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-normal);
 }
 
-.logseq-property-rows .setting-item {
-  padding: 8px 0;
-  border-bottom: 1px solid var(--background-modifier-border);
+.logseq-property-modal-subtitle {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text-muted);
 }
 
-.logseq-property-rows .setting-item:last-of-type {
-  border-bottom: none;
-}
-
-.logseq-property-rows .setting-item-info {
-  display: none;
-}
-
-.logseq-property-rows .setting-item-control {
+.logseq-property-rows {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 50vh;
+  overflow-y: auto;
+  padding-right: 4px;
+  margin-bottom: 4px;
 }
 
-.logseq-property-rows .setting-item-control input {
-  border-radius: 6px;
-  padding: 6px 10px;
+.logseq-property-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--background-secondary-alt);
+  border: 1px solid var(--background-modifier-border);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.logseq-property-row:focus-within {
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 0 1px var(--interactive-accent);
+}
+
+.logseq-property-fields {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.logseq-property-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.logseq-property-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.logseq-property-input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-primary);
+  color: var(--text-normal);
   font-size: 13px;
+  font-family: inherit;
+  transition: border-color 0.15s ease;
+  box-sizing: border-box;
 }
 
-.logseq-property-rows .setting-item-control .clickable-icon {
-  border-radius: 6px;
-  padding: 6px;
+.logseq-property-input::placeholder {
+  color: var(--text-faint);
+}
+
+.logseq-property-input:focus {
+  outline: none;
+  border-color: var(--interactive-accent);
+}
+
+.logseq-property-remove {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  margin-top: 18px;
+}
+
+.logseq-property-remove:hover {
+  background: var(--background-modifier-hover);
+  color: var(--text-error);
+}
+
+.logseq-property-add-wrap {
+  padding: 4px 0;
+}
+
+.logseq-property-add-btn {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px dashed var(--background-modifier-border);
+  background: var(--background-secondary-alt);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.logseq-property-add-btn:hover {
+  border-color: var(--interactive-accent);
+  color: var(--interactive-accent);
+  background: var(--background-modifier-hover);
 }
 
 .logseq-modal-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 24px;
-  padding-top: 16px;
+  margin-top: 20px;
+  padding-top: 18px;
   border-top: 1px solid var(--background-modifier-border);
 }
 
 .logseq-btn {
-  padding: 8px 18px;
+  padding: 9px 20px;
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;

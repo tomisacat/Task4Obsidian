@@ -1,4 +1,4 @@
-import { App, Modal, Setting } from "obsidian";
+import { App, Modal } from "obsidian";
 import type { TaskBlock } from "../core/parser";
 import type TasksPlugin from "../main";
 
@@ -19,12 +19,18 @@ export class PropertyModal extends Modal {
   }
 
   onOpen() {
+    this.modalEl.addClass("logseq-property-modal");
     const { contentEl } = this;
     contentEl.empty();
     contentEl.addClass("logseq-property-modal-content");
 
-    const title = contentEl.createEl("h2", { text: "Edit task properties" });
+    const header = contentEl.createDiv({ cls: "logseq-property-modal-header" });
+    const title = header.createEl("h2", { text: "Edit task properties" });
     title.addClass("logseq-property-modal-title");
+    const subtitle = header.createEl("p", {
+      text: "Add or edit key:: value pairs. Empty rows are ignored when saving.",
+    });
+    subtitle.addClass("logseq-property-modal-subtitle");
 
     const listEl = contentEl.createDiv({ cls: "logseq-property-rows" });
 
@@ -32,45 +38,61 @@ export class PropertyModal extends Modal {
       listEl.empty();
 
       this.entries.forEach((entry, index) => {
-        const setting = new Setting(listEl);
-        setting.addText((text) => {
-          text.setPlaceholder("key");
-          text.setValue(entry.key);
-          text.onChange((value) => {
-            this.entries[index].key = value;
-          });
+        const row = listEl.createDiv({ cls: "logseq-property-row" });
+        const fields = row.createDiv({ cls: "logseq-property-fields" });
+
+        const keyWrap = fields.createDiv({ cls: "logseq-property-field" });
+        keyWrap.createEl("label", { text: "Key", cls: "logseq-property-label" });
+        const keyInput = keyWrap.createEl("input", {
+          type: "text",
+          cls: "logseq-property-input",
         });
-        setting.addText((text) => {
-          text.setPlaceholder("value");
-          text.setValue(entry.value);
-          text.onChange((value) => {
-            this.entries[index].value = value;
-          });
+        keyInput.placeholder = "e.g. project";
+        keyInput.value = entry.key;
+        keyInput.addEventListener("input", () => {
+          this.entries[index].key = keyInput.value;
         });
-        setting.addExtraButton((btn) => {
-          btn.setIcon("cross");
-          btn.setTooltip("Remove property");
-          btn.onClick(() => {
-            this.entries.splice(index, 1);
-            renderRows();
-          });
+
+        const valueWrap = fields.createDiv({ cls: "logseq-property-field" });
+        valueWrap.createEl("label", { text: "Value", cls: "logseq-property-label" });
+        const valueInput = valueWrap.createEl("input", {
+          type: "text",
+          cls: "logseq-property-input",
+        });
+        valueInput.placeholder = "e.g. My Project";
+        valueInput.value = entry.value;
+        valueInput.addEventListener("input", () => {
+          this.entries[index].value = valueInput.value;
+        });
+
+        const removeBtn = row.createEl("button", {
+          type: "button",
+          cls: "logseq-property-remove",
+        });
+        removeBtn.setAttribute("aria-label", "Remove property");
+        removeBtn.innerHTML =
+          '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+        removeBtn.addEventListener("click", () => {
+          this.entries.splice(index, 1);
+          renderRows();
         });
       });
 
-      const addRow = new Setting(listEl);
-      addRow.addButton((btn) => {
-        btn.setButtonText("Add property");
-        btn.onClick(() => {
-          this.entries.push({ key: "", value: "" });
-          renderRows();
-        });
+      const addWrap = listEl.createDiv({ cls: "logseq-property-add-wrap" });
+      const addBtn = addWrap.createEl("button", {
+        type: "button",
+        text: "+ Add property",
+        cls: "logseq-property-add-btn",
+      });
+      addBtn.addEventListener("click", () => {
+        this.entries.push({ key: "", value: "" });
+        renderRows();
       });
     };
 
     renderRows();
 
     const buttons = contentEl.createDiv({ cls: "logseq-modal-actions" });
-
     const cancelBtn = buttons.createEl("button", {
       text: "Cancel",
       cls: "logseq-btn logseq-btn-ghost",
@@ -92,12 +114,11 @@ export class PropertyModal extends Modal {
       this.close();
     });
 
-    cancelBtn.addEventListener("click", () => {
-      this.close();
-    });
+    cancelBtn.addEventListener("click", () => this.close());
   }
 
   onClose() {
+    this.modalEl.removeClass("logseq-property-modal");
     this.contentEl.empty();
   }
 }
