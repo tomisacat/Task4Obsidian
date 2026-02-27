@@ -1,9 +1,9 @@
 {
-  "id": "obsidian-logseq-tasks",
-  "name": "Tasks",
-  "version": "0.1.0",
+  "id": "outliner-tasks",
+  "name": "Outliner Tasks",
+  "version": "0.1.1",
   "minAppVersion": "1.7.0",
-  "description": "Logseq-like, outliner-focused task management with query-based side pane views.",
+  "description": "Outliner-focused task management with query-based side pane views.",
   "author": "Bryan Ma",
   "authorUrl": "https://github.com/tomisacat",
   "isDesktopOnly": true,
