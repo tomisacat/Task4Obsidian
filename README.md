@@ -91,8 +91,8 @@ npm run build
 
 If this plugin helps you, consider supporting its development:
 
-| Platform | Link |
-| -------- | ---- |
-| **GitHub Sponsors** | [Sponsor on GitHub](https://github.com/sponsors/tomisacat) |
+| Platform | QR Code |
+| -------- | ------- |
+| **Alipay** | ![Alipay](screenshots/alipay.jpeg) |
 
 Thank you for your support.
