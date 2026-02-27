@@ -6,7 +6,5 @@
   "description": "Outliner-focused task management with query-based side pane views.",
   "author": "Bryan Ma",
   "authorUrl": "https://github.com/tomisacat",
-  "isDesktopOnly": true,
-  "js": "main.js",
-  "css": "styles.css"
+  "isDesktopOnly": true
 }
