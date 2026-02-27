@@ -1,6 +1,26 @@
-# Logseq-style Tasks for Obsidian
+# Tasks
 
-Logseq-style, outliner-focused task management for Obsidian with a query-based side pane. Tasks use state keywords (TODO, DOING, DONE, etc.), optional priorities, tags, and properties.
+Outliner-focused task management for Obsidian with a query-based side pane. Tasks use state keywords (TODO, DOING, DONE, etc.), optional priorities, tags, and properties.
+
+## Screenshots
+
+### Task panel
+
+Tasks are grouped by page. Each card shows state, priority, and a pencil button for properties. Click any card to jump to that line in the note.
+
+![Task Panel](screenshots/task-panel.png)
+
+### Query filters
+
+Expand the filter section to narrow tasks by state, priority, tags, or properties.
+
+![Query Filters](screenshots/query-filters.png)
+
+### Property editor
+
+Edit `key:: value` pairs for any task from a modal dialog.
+
+![Property Editor](screenshots/property-modal.png)
 
 ## Task syntax
 
@@ -66,3 +86,13 @@ npm run build
 4. Enable **Tasks** in **Settings → Community plugins**.
 
 5. Use **npm run dev** for watch mode while developing.
+
+## Donate
+
+If this plugin helps you, consider supporting its development:
+
+| Platform | Link |
+| -------- | ---- |
+| **GitHub Sponsors** | [Sponsor on GitHub](https://github.com/sponsors/tomisacat) |
+
+Thank you for your support.
