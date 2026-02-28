@@ -19,14 +19,16 @@ export default class TasksPlugin extends Plugin {
       (leaf: WorkspaceLeaf) => new TaskPaneView(leaf, this)
     );
 
-    this.addRibbonIcon("check-circle", "Open Tasks", () => {
-      this.activateView();
+    this.addRibbonIcon("check-circle", "Open tasks", () => {
+      void this.activateView();
     });
 
     this.addCommand({
       id: "open-logseq-tasks-view",
-      name: "Open Tasks view",
-      callback: () => this.activateView(),
+      name: "Open tasks view",
+      callback: () => {
+        void this.activateView();
+      },
     });
 
     this.addCommand({
@@ -61,7 +63,7 @@ export default class TasksPlugin extends Plugin {
 
     const taskId = `${file.path}:${lineNumber + 1}`;
     if (this.indexer?.getTaskById(taskId)) {
-      this.toggleTaskState(taskId);
+      void this.toggleTaskState(taskId);
       return;
     }
 
@@ -93,7 +95,7 @@ export default class TasksPlugin extends Plugin {
     }
 
     if (!leaf) return;
-    workspace.revealLeaf(leaf);
+    await workspace.revealLeaf(leaf);
   }
 
   async toggleTaskState(taskId: string): Promise<void> {

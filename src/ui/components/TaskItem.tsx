@@ -1,4 +1,3 @@
-import { h } from "preact";
 import type { TaskBlock } from "../../core/parser";
 
 export interface TaskItemProps {

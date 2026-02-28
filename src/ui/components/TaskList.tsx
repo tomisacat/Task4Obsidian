@@ -1,4 +1,3 @@
-import { h } from "preact";
 import type { GroupedTasks } from "../../core/query";
 import type { TaskBlock } from "../../core/parser";
 import { TaskItem } from "./TaskItem";

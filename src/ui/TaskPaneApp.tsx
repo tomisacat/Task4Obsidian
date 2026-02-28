@@ -1,4 +1,3 @@
-import { h } from "preact";
 import { useEffect, useMemo, useState } from "preact/hooks";
 import { TFile } from "obsidian";
 import type TasksPlugin from "../main";
@@ -44,9 +43,9 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
       setVersion((v) => v + 1);
     };
 
-    const modifyRef = vault.on("modify", bump);
-    const deleteRef = vault.on("delete", bump);
-    const renameRef = vault.on("rename", bump);
+    vault.on("modify", bump);
+    vault.on("delete", bump);
+    vault.on("rename", bump);
 
     return () => {
       vault.off("modify", bump);
@@ -116,12 +115,12 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
     setPropertyFilters([{ key: "", value: "" }]);
   };
 
-  const handleOpenTask = async (task: TaskBlock) => {
+  const openTask = async (task: TaskBlock) => {
     const { vault, workspace } = plugin.app;
     const abstractFile = vault.getAbstractFileByPath(task.page);
     const file = abstractFile instanceof TFile ? abstractFile : null;
     if (!file) {
-      workspace.openLinkText(task.page, "", "tab");
+      void workspace.openLinkText(task.page, "", "tab");
       return;
     }
     const leaf = workspace.getLeaf(false);
@@ -136,15 +135,19 @@ export function TaskPaneApp(props: TaskPaneAppProps) {
     }
   };
 
-  const handleToggleTaskState = async (task: TaskBlock) => {
-    await plugin.toggleTaskState(task.id);
+  const handleOpenTask = (task: TaskBlock) => {
+    void openTask(task);
   };
 
-  const handleCycleTaskPriority = async (task: TaskBlock) => {
-    await plugin.cycleTaskPriority(task.id);
+  const handleToggleTaskState = (task: TaskBlock) => {
+    void plugin.toggleTaskState(task.id);
   };
 
-  const handleEditTaskProperties = async (task: TaskBlock) => {
+  const handleCycleTaskPriority = (task: TaskBlock) => {
+    void plugin.cycleTaskPriority(task.id);
+  };
+
+  const handleEditTaskProperties = (task: TaskBlock) => {
     const modal = new PropertyModal(plugin.app, plugin, task);
     modal.open();
   };

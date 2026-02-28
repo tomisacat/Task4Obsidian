@@ -1,4 +1,3 @@
-import { h } from "preact";
 import type { TaskState } from "../../core/parser";
 
 const TASK_STATES: (TaskState | "")[] = [

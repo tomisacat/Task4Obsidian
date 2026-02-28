@@ -6,7 +6,9 @@
   "scripts": {
     "build": "esbuild src/main.ts --bundle --outfile=main.js --format=cjs --platform=node --external:obsidian --target=es2018",
     "dev": "npm run build -- --watch",
-    "test": "vitest"
+    "test": "vitest",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix"
   },
   "keywords": [
     "obsidian",
@@ -18,7 +20,10 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^22.10.1",
+    "@typescript-eslint/parser": "^8.56.1",
     "esbuild": "^0.24.0",
+    "eslint": "^10.0.2",
+    "eslint-plugin-obsidianmd": "^0.1.9",
     "typescript": "^5.7.2",
     "vitest": "^2.1.4"
   },

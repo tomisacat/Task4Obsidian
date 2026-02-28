@@ -47,7 +47,7 @@ export class PropertyModal extends Modal {
           type: "text",
           cls: "logseq-property-input",
         });
-        keyInput.placeholder = "e.g. project";
+        keyInput.placeholder = "For example, project";
         keyInput.value = entry.key;
         keyInput.addEventListener("input", () => {
           this.entries[index].key = keyInput.value;
@@ -59,7 +59,7 @@ export class PropertyModal extends Modal {
           type: "text",
           cls: "logseq-property-input",
         });
-        valueInput.placeholder = "e.g. My Project";
+        valueInput.placeholder = "For example, my project";
         valueInput.value = entry.value;
         valueInput.addEventListener("input", () => {
           this.entries[index].value = valueInput.value;
@@ -70,8 +70,7 @@ export class PropertyModal extends Modal {
           cls: "logseq-property-remove",
         });
         removeBtn.setAttribute("aria-label", "Remove property");
-        removeBtn.innerHTML =
-          '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+        removeBtn.setText("×");
         removeBtn.addEventListener("click", () => {
           this.entries.splice(index, 1);
           renderRows();
@@ -81,7 +80,7 @@ export class PropertyModal extends Modal {
       const addWrap = listEl.createDiv({ cls: "logseq-property-add-wrap" });
       const addBtn = addWrap.createEl("button", {
         type: "button",
-        text: "+ Add property",
+        text: "+ add property",
         cls: "logseq-property-add-btn",
       });
       addBtn.addEventListener("click", () => {
@@ -102,16 +101,8 @@ export class PropertyModal extends Modal {
       cls: "logseq-btn logseq-btn-primary",
     });
 
-    saveBtn.addEventListener("click", async () => {
-      const properties: Record<string, string> = {};
-      for (const { key, value } of this.entries) {
-        const k = key.trim();
-        const v = value.trim();
-        if (!k || !v) continue;
-        properties[k] = v;
-      }
-      await this.plugin.setTaskProperties(this.task.id, properties);
-      this.close();
+    saveBtn.addEventListener("click", () => {
+      void this.saveProperties();
     });
 
     cancelBtn.addEventListener("click", () => this.close());
@@ -120,6 +111,18 @@ export class PropertyModal extends Modal {
   onClose() {
     this.modalEl.removeClass("logseq-property-modal");
     this.contentEl.empty();
+  }
+
+  private async saveProperties(): Promise<void> {
+    const properties: Record<string, string> = {};
+    for (const { key, value } of this.entries) {
+      const k = key.trim();
+      const v = value.trim();
+      if (!k || !v) continue;
+      properties[k] = v;
+    }
+    await this.plugin.setTaskProperties(this.task.id, properties);
+    this.close();
   }
 }
 
