@@ -1,6 +1,6 @@
 {
-  "name": "obsidian-logseq-tasks",
-  "version": "0.1.0",
+  "name": "outliner-tasks",
+  "version": "0.1.2",
   "description": "Logseq-like task management plugin for Obsidian.",
   "main": "main.js",
   "scripts": {
