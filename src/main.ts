@@ -3,7 +3,13 @@ import { LOGSEQ_TASKS_VIEW_TYPE, TaskPaneView } from "./views/TaskPaneView";
 import { TaskIndexer } from "./core/indexer";
 import type { TaskState, TaskPriority, TaskProperties } from "./core/parser";
 
-const STATE_CYCLE: TaskState[] = ["TODO", "DOING", "DONE", "CANCELED"];
+const STATE_CYCLE: TaskState[] = [
+  "TODO",
+  "DOING",
+  "WAITING",
+  "DONE",
+  "CANCELED",
+];
 const TASK_LINE_RE =
   /^\s*(?:[-*]\s+)?(TODO|DOING|DONE|CANCELED|WAITING)/;
 
@@ -103,9 +109,9 @@ export default class TasksPlugin extends Plugin {
     const task = this.indexer.getTaskById(taskId);
     if (!task) return;
 
-    const order: TaskState[] = ["TODO", "DOING", "DONE", "CANCELED"];
-    const currentIndex = order.indexOf(task.state);
-    const nextState = order[(currentIndex + 1) % order.length] ?? "TODO";
+    const currentIndex = STATE_CYCLE.indexOf(task.state);
+    const nextState =
+      STATE_CYCLE[(currentIndex + 1) % STATE_CYCLE.length] ?? "TODO";
     await this.indexer.updateTaskState(taskId, nextState);
   }
 
