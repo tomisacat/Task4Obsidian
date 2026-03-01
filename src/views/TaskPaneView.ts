@@ -26,7 +26,7 @@ export class TaskPaneView extends ItemView {
     return "check-circle";
   }
 
-  async onOpen(): Promise<void> {
+  onOpen(): Promise<void> {
     const container = this.containerEl.children[1];
     container.empty();
 
@@ -40,10 +40,12 @@ export class TaskPaneView extends ItemView {
         root
       );
     }
+    return Promise.resolve();
   }
 
-  async onClose(): Promise<void> {
+  onClose(): Promise<void> {
     // Nothing to clean up yet
+    return Promise.resolve();
   }
 }
 

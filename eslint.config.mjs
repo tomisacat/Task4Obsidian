@@ -12,5 +12,8 @@ export default defineConfig([
         project: "./tsconfig.json",
       },
     },
+    rules: {
+      "@typescript-eslint/require-await": "error",
+    },
   },
 ]);
